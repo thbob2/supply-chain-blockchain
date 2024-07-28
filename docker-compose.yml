@@ -10,16 +10,16 @@ services:
       - ./data/db:/data/db
   backend:
     build:
-      context: ./backend
-    container_name: backend
+      context: ./server
+    container_name: server
     ports:
       - "5000:5000"
     depends_on:
       - mongodb
   frontend:
     build:
-      context: ./frontend
-    container_name: frontend
+      context: ./client
+    container_name: client
     ports:
       - "3000:3000"
     depends_on:
