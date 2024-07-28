@@ -1,0 +1,26 @@
+# docker-compose.yml
+version: '3.8'
+services:
+  mongodb:
+    image: mongo
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./data/db:/data/db
+  backend:
+    build:
+      context: ./server
+    container_name: server
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mongodb
+  frontend:
+    build:
+      context: ./client
+    container_name: client
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
