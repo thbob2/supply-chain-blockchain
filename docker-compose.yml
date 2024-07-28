@@ -1,3 +1,4 @@
+# docker-compose.yml
 version: '3.8'
 services:
   mongodb:
@@ -7,4 +8,19 @@ services:
       - "27017:27017"
     volumes:
       - ./data/db:/data/db
-
+  backend:
+    build:
+      context: ./backend
+    container_name: backend
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mongodb
+  frontend:
+    build:
+      context: ./frontend
+    container_name: frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
