@@ -9,8 +9,8 @@ This project is a decentralized application (dApp) for managing a car manufactur
 -   **Ethereum Blockchain**: Managed by Ganache.
 -   **Smart Contract**: Written in Solidity.
 -   **Frontend**: Next.js application.
--   **Backend**: Express.js server interacting with Ethereum and MongoDB.
--   **MongoDB**: Stores off-chain data.
+-   **Backend**: Built with NestJS, handles business logic and communicates with the blockchain and MongoDB.
+-   **MongoDB**: Stores metadata about vehicles and transactions..
 -   **Docker**: Containerizes all components.
 
 ## Setup Guide
@@ -25,31 +25,33 @@ This project is a decentralized application (dApp) for managing a car manufactur
 
 ```
 mobility-supply-chain/
+root/
 ├── blockchain/
 │   ├── contracts/
-│   │   └── VehicleSupplyChain.sol
 │   ├── migrations/
-│   │   └── 1_initial_migration.js
 │   ├── truffle-config.js
-│   └── package.json
+│   ├── Dockerfile
 ├── backend/
-│   ├── routes/
-│   │   └── vehicleRoutes.js
-│   ├── server.js
-│   ├── config.js
-│   └── package.json
+│   ├── src/
+│   │   ├── app.module.ts
+│   │   ├── vehicle/
+│   │   ├── config/
+│   │   └── main.ts
+│   ├── test/
+│   ├── Dockerfile
+│   ├── nest-cli.json
+│   ├── package.json
 ├── frontend/
 │   ├── pages/
-│   │   └── index.js
-│   ├── components/
 │   ├── public/
-│   ├── styles/
+│   ├── Dockerfile
+│   ├── next.config.js
 │   ├── package.json
-│   └── next.config.js
 ├── mongo-init.js
 ├── docker-compose.yml
 ├── .env
 └── README.md
+
 
 ```
 
