@@ -1,0 +1,13 @@
+{
+	"name": "blockchain",
+	"version": "1.0.0",
+	"description": "Smart contract for the vehicle supply chain",
+	"main": "truffle-config.js",
+	"scripts": {
+		"migrate": "truffle migrate --network development"
+	},
+	"dependencies": {
+		"truffle": "^5.4.29",
+		"web3": "^1.6.0"
+	}
+}

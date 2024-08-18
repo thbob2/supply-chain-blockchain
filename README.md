@@ -1,4 +1,4 @@
-# Car Manufacturing Supply Chain
+# Mobility Manufacturing Supply Chain
 
 ## Overview
 
@@ -6,43 +6,53 @@ This project is a decentralized application (dApp) for managing a car manufactur
 
 ## Components
 
-- **Ethereum Blockchain**: Managed by Ganache.
-- **Smart Contract**: Written in Solidity.
-- **Frontend**: Next.js application.
-- **Backend**: Express.js server interacting with Ethereum and MongoDB.
-- **MongoDB**: Stores off-chain data.
-- **Docker**: Containerizes all components.
+-   **Ethereum Blockchain**: Managed by Ganache.
+-   **Smart Contract**: Written in Solidity.
+-   **Frontend**: Next.js application.
+-   **Backend**: Built with NestJS, handles business logic and communicates with the blockchain and MongoDB.
+-   **MongoDB**: Stores metadata about vehicles and transactions..
+-   **Docker**: Containerizes all components.
 
 ## Setup Guide
 
 ### 1. Prerequisites
 
-- Node.js and npm: [Install Node.js](https://nodejs.org/)
-- Docker: [Install Docker](https://www.docker.com/products/docker-desktop)
-- Ganache: [Download Ganache](https://www.trufflesuite.com/ganache)
+-   Node.js and npm: [Install Node.js](https://nodejs.org/)
+-   Docker: [Install Docker](https://www.docker.com/products/docker-desktop)
+-   Ganache: [Download Ganache](https://www.trufflesuite.com/ganache)
 
-### Project Structure 
+### Project Structure
+
 ```
-car-supply-chain/
-│
-├── data/
-│   └── db/
-│       └── (MongoDB data)
-│
-├── backend/
+mobility-supply-chain/
+root/
+├── blockchain/
 │   ├── contracts/
-│   │   └── CarSupplyChain.sol
+│   ├── migrations/
+│   ├── truffle-config.js
 │   ├── Dockerfile
-│   ├── server.js
-│   └── package.json
-│
+├── backend/
+│   ├── src/
+│   │   ├── app.module.ts
+│   │   ├── vehicle/
+│   │   ├── config/
+│   │   └── main.ts
+│   ├── test/
+│   ├── Dockerfile
+│   ├── nest-cli.json
+│   ├── package.json
 ├── frontend/
-│   ├── Dockerfile
 │   ├── pages/
-│   │   └── index.js
-│   └── package.json
-│
-└── docker-compose.yml
+│   ├── public/
+│   ├── Dockerfile
+│   ├── next.config.js
+│   ├── package.json
+├── mongo-init.js
+├── docker-compose.yml
+├── .env
+└── README.md
+
+
 ```
 
 ### 2. Initialize Project Directory
@@ -53,6 +63,7 @@ cd car-supply-chain
 ```
 
 ### 3. Set Up Ganache
+
     Start Ganache and note the RPC URL (e.g., http://127.0.0.1:7545) and mnemonic.
 
 ### 4. Set Up Ethereum Smart Contract
@@ -68,24 +79,30 @@ truffle migrate --network development
 
 ```
 
-
 ## Running the Project
+
 ### Start Docker Containers:
+
 ```sh
 Copier le code
 docker-compose up -d
 ```
+
 #### Navigate to Backend Directory and Run Server:
+
 ```sh
 cd backend
 docker build -t backend .
 docker run -p 5000:5000 backend
 ```
+
 ### Navigate to Frontend Directory and Run Next.js:
+
 ```sh
 cd frontend
 docker build -t frontend .
 docker run -p 3000:3000 frontend
 ```
+
 Access Application:
 Visit http://localhost:3000 to see the frontend interface.
