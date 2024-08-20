@@ -1,39 +1,38 @@
-version: '3.8'
+version: '3'
 
 services:
-    blockchain:
-        image: trufflesuite/ganache-cli
-        ports:
-            - '7545:7545'
-        command: ganache-cli -p 7545 -h 0.0.0.0 -m "${MNEMONIC}"
-
     mongo:
-        image: mongo
+        image: mongo:6
+        container_name: mongo
         ports:
             - '27017:27017'
-        environment:
-            MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
-            MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
         volumes:
-            - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+            - mongo-data:/data/db
+
+    blockchain:
+        build: ./blockchain
+        container_name: blockchain
+        ports:
+            - '7545:7545'
 
     backend:
         build: ./backend
-        ports:
-            - '5000:5000'
-        depends_on:
-            - blockchain
-            - mongo
-        environment:
-            INFURA_PROJECT_ID: ${INFURA_PROJECT_ID}
-            PRIVATE_KEY: ${PRIVATE_KEY}
-            MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
-            MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
-            MONGO_DB: ${MONGO_DB}
-
-    frontend:
-        build: ./frontend
+        container_name: backend
         ports:
             - '3000:3000'
         depends_on:
+            - mongo
+            - blockchain
+        environment:
+            MONGO_URI: mongodb://mongo:27017/vehicles
+
+    frontend:
+        build: ./frontend
+        container_name: frontend
+        ports:
+            - '3001:3000'
+        depends_on:
             - backend
+
+volumes:
+    mongo-data:

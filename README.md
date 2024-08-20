@@ -1,30 +1,24 @@
-# Mobility Manufacturing Supply Chain
+# Vehicle Supply Chain Management Blockchain
 
 ## Overview
 
-This project is a decentralized application (dApp) for managing a car manufacturing supply chain using Ethereum blockchain. The application consists of a frontend built with Next.js, a backend with Express.js, and a smart contract deployed on a local Ethereum blockchain using Ganache. MongoDB is used for off-chain data storage.
+This project is a blockchain-based supply chain management system for vehicles. It tracks the lifecycle of vehicles, from manufacturing to final delivery, ensuring transparency and immutability.
 
-## Components
+## Technologies
 
--   **Ethereum Blockchain**: Managed by Ganache.
--   **Smart Contract**: Written in Solidity.
--   **Frontend**: Next.js application.
--   **Backend**: Built with NestJS, handles business logic and communicates with the blockchain and MongoDB.
--   **MongoDB**: Stores metadata about vehicles and transactions..
--   **Docker**: Containerizes all components.
+-   **Backend:** NestJS
+-   **Frontend:** Next.js
+-   **Blockchain:** Ethereum (Solidity Smart Contracts)
+-   **Database:** MongoDB
+-   **Containerization:** Docker
 
-## Setup Guide
+## Setup Instructions
 
-### 1. Prerequisites
+### Folder structure
 
--   Node.js and npm: [Install Node.js](https://nodejs.org/)
--   Docker: [Install Docker](https://www.docker.com/products/docker-desktop)
--   Ganache: [Download Ganache](https://www.trufflesuite.com/ganache)
+```sh
 
-### Project Structure
-
-```
-moibility-supply-chain/
+vehicle-supply-chain/
 ├── backend/
 │   ├── src/
 │   │   ├── app.controller.ts
@@ -69,56 +63,52 @@ moibility-supply-chain/
 └── docker-compose.yml
 
 
-```
 
-### 2. Initialize Project Directory
-
-```sh
-mkdir car-supply-chain
-cd car-supply-chain
-```
-
-### 3. Set Up Ganache
-
-    Start Ganache and note the RPC URL (e.g., http://127.0.0.1:7545) and mnemonic.
-
-### 4. Set Up Ethereum Smart Contract
-
-```sh
-npm install -g truffle
-truffle init
-
-
-
-truffle compile
-truffle migrate --network development
 
 ```
 
-## Running the Project
+### Prerequisites
 
-### Start Docker Containers:
+-   Docker
+-   Docker Compose
+-   Node.js
 
-```sh
-Copier le code
-docker-compose up -d
-```
+### Setup and Run
 
-#### Navigate to Backend Directory and Run Server:
+1. **Clone the Repository:**
 
-```sh
-cd backend
-docker build -t backend .
-docker run -p 5000:5000 backend
-```
+    ```bash
+    git clone <repository-url>
+    cd vehicle-supply-chain
+    ```
 
-### Navigate to Frontend Directory and Run Next.js:
+2. **Build and Run the Application:**
 
-```sh
-cd frontend
-docker build -t frontend .
-docker run -p 3000:3000 frontend
-```
+    ```bash
+    docker-compose build
+    docker-compose up
+    ```
 
-Access Application:
-Visit http://localhost:3000 to see the frontend interface.
+3. **Access the Application:**
+
+    - **Frontend:** http://localhost:3001
+    - **Backend:** http://localhost:3000
+    - **MongoDB:** mongodb://localhost:27017
+    - **Ganache (Blockchain):** http://localhost:7545
+
+### API Endpoints
+
+-   **Register Vehicle:** `POST /vehicle/register`
+-   **Transfer Vehicle:** `POST /vehicle/transfer/:id`
+-   **Check Vehicle Owner:** `GET /vehicle/:id/owner`
+
+## Docker Services
+
+-   **MongoDB:** Database service
+-   **Blockchain:** Ganache service for the Ethereum blockchain
+-   **Backend:** NestJS API server
+-   **Frontend:** Next.js frontend server
+
+## License
+
+This project is licensed under the MIT License.

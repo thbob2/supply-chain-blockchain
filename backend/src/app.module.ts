@@ -1,20 +1,13 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { ConfigModule } from '@nestjs/config';
 import { VehicleModule } from './vehicle/vehicle.module';
-import { ConfigService } from './config/config.service';
+import { BlockchainModule } from './blockchain/blockchain.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
-    MongooseModule.forRootAsync({
-      imports: [ConfigModule],
-      useFactory: async (configService: ConfigService) => ({
-        uri: configService.getMongoURI(),
-      }),
-      inject: [ConfigService],
-    }),
+    MongooseModule.forRoot(process.env.MONGO_URI),
     VehicleModule,
+    BlockchainModule,
   ],
 })
 export class AppModule {}
