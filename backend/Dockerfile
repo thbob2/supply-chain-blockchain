@@ -1,15 +1,8 @@
-FROM node:16
-
+FROM node:latest
 WORKDIR /app
-
-COPY package.json yarn.lock ./
-
-RUN yarn install
-
+COPY package*.json ./
+RUN npm install
 COPY . .
-
-RUN yarn build
-
-EXPOSE 5000
-
-CMD ["yarn", "start:prod"]
+RUN npm run build
+EXPOSE 3000
+CMD ["npm", "run", "start:prod"]
