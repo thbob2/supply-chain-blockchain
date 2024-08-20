@@ -3,27 +3,27 @@ pragma solidity ^0.8.0;
 contract VehicleSupplyChain {
     struct Vehicle {
         string brand;
-        address currentOwner;
-        bool isReceived;
+        address owner;
+        bool exists;
     }
 
-    mapping(uint256 => Vehicle) public vehicles;
-    uint256 public vehicleCount = 0;
+    mapping(uint => Vehicle) public vehicles;
+    uint public vehicleCount;
 
-    function manufactureVehicle(string memory brand) public {
+    function registerVehicle(string memory _brand) public {
         vehicleCount++;
-        vehicles[vehicleCount] = Vehicle(brand, msg.sender, false);
+        vehicles[vehicleCount] = Vehicle(_brand, msg.sender, true);
     }
 
-    function shipVehicle(uint256 vehicleId, address newOwner) public {
-        Vehicle storage vehicle = vehicles[vehicleId];
-        require(msg.sender == vehicle.currentOwner, "Only the current owner can ship the vehicle.");
-        vehicle.currentOwner = newOwner;
+    function transferVehicle(uint _id, address _newOwner) public {
+        require(vehicles[_id].exists, "Vehicle does not exist.");
+        require(vehicles[_id].owner == msg.sender, "You are not the owner.");
+
+        vehicles[_id].owner = _newOwner;
     }
 
-    function receiveVehicle(uint256 vehicleId) public {
-        Vehicle storage vehicle = vehicles[vehicleId];
-        require(msg.sender == vehicle.currentOwner, "Only the current owner can receive the vehicle.");
-        vehicle.isReceived = true;
+    function getVehicleOwner(uint _id) public view returns (address) {
+        require(vehicles[_id].exists, "Vehicle does not exist.");
+        return vehicles[_id].owner;
     }
 }
