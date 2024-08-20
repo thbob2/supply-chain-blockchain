@@ -24,33 +24,49 @@ This project is a decentralized application (dApp) for managing a car manufactur
 ### Project Structure
 
 ```
-mobility-supply-chain/
-root/
-├── blockchain/
-│   ├── contracts/
-│   ├── migrations/
-│   ├── truffle-config.js
-│   ├── Dockerfile
+moibility-supply-chain/
 ├── backend/
 │   ├── src/
+│   │   ├── app.controller.ts
 │   │   ├── app.module.ts
+│   │   ├── app.service.ts
 │   │   ├── vehicle/
-│   │   ├── config/
-│   │   └── main.ts
-│   ├── test/
+│   │   │   ├── vehicle.controller.ts
+│   │   │   ├── vehicle.module.ts
+│   │   │   ├── vehicle.service.ts
+│   │   │   └── dto/
+│   │   │       └── create-vehicle.dto.ts
+│   │   └── blockchain/
+│   │       ├── blockchain.service.ts
+│   │       ├── blockchain.module.ts
+│   │       └── contracts/
+│   │           └── VehicleSupplyChain.sol
 │   ├── Dockerfile
-│   ├── nest-cli.json
 │   ├── package.json
+│   └── tsconfig.json
 ├── frontend/
+│   ├── components/
+│   │   └── Layout.js
 │   ├── pages/
+│   │   ├── api/
+│   │   ├── index.js
+│   │   ├── register.js
+│   │   ├── transfer.js
+│   │   └── receive.js
 │   ├── public/
+│   ├── styles/
+│   │   └── globals.css
 │   ├── Dockerfile
 │   ├── next.config.js
-│   ├── package.json
-├── mongo-init.js
-├── docker-compose.yml
-├── .env
-└── README.md
+│   └── package.json
+├── blockchain/
+│   ├── contracts/
+│   │   └── VehicleSupplyChain.sol
+│   ├── migrations/
+│   ├── test/
+│   ├── truffle-config.js
+│   └── Dockerfile
+└── docker-compose.yml
 
 
 ```
