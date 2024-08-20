@@ -1,42 +1,38 @@
 import { Injectable } from '@nestjs/common';
-import Web3 from 'web3';
-import { ConfigService } from '@nestjs/config';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { Vehicle } from './schemas/vehicle.schema';
+import { BlockchainService } from '../blockchain/blockchain.service';
 
 @Injectable()
 export class VehicleService {
-  private web3: Web3;
-  private contract: any;
+  constructor(
+    @InjectModel(Vehicle.name) private vehicleModel: Model<Vehicle>,
+    private blockchainService: BlockchainService,
+  ) {}
 
-  constructor(private configService: ConfigService) {
-    this.web3 = new Web3(
-      new Web3.providers.HttpProvider(this.configService.get('NETWORK')),
+  // Register a new vehicle
+  async registerVehicle(brand: string, owner: string) {
+    const vehicle = new this.vehicleModel({ brand, owner });
+    await this.blockchainService.registerVehicle(brand, owner);
+    return vehicle.save();
+  }
+
+  // Transfer a vehicle to a new owner
+  async transferVehicle(id: string, newOwner: string) {
+    await this.blockchainService.transferVehicle(parseInt(id), newOwner);
+    return this.vehicleModel.findByIdAndUpdate(
+      id,
+      { owner: newOwner },
+      { new: true },
     );
-    const contractABI = require('../contracts/VehicleSupplyChain.json').abi;
-    this.contract = new this.web3.eth.Contract(
-      contractABI,
-      this.configService.get('CONTRACT_ADDRESS'),
+  }
+
+  // Get the owner of a vehicle
+  async getVehicleOwner(id: string) {
+    const vehicleOwner = await this.blockchainService.getVehicleOwner(
+      parseInt(id),
     );
-  }
-
-  async registerVehicle(brand: string) {
-    const accounts = await this.web3.eth.getAccounts();
-    await this.contract.methods
-      .manufactureVehicle(brand)
-      .send({ from: accounts[0] });
-    return { message: 'Vehicle registered successfully.' };
-  }
-
-  async transferVehicle(id: number, newOwner: string) {
-    const accounts = await this.web3.eth.getAccounts();
-    await this.contract.methods
-      .shipVehicle(id, newOwner)
-      .send({ from: accounts[0] });
-    return { message: 'Vehicle transferred successfully.' };
-  }
-
-  async receiveVehicle(id: number) {
-    const accounts = await this.web3.eth.getAccounts();
-    await this.contract.methods.receiveVehicle(id).send({ from: accounts[0] });
-    return { message: 'Vehicle received successfully.' };
+    return vehicleOwner;
   }
 }
